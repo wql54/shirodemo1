@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shirodemo1.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.shirodemo1.entity.User">
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="roleid" jdbcType="VARCHAR" property="roleid"/>
+        <result column="id" jdbcType="DECIMAL" property="id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       id,username,password,roleid
+   </sql>
+    <insert id="insert" parameterType="com.example.shirodemo1.entity.User">
+    insert into user (username,password,roleid) values (#{username},#{password},#{roleid})
+  </insert>
+
+
+    <update id="update" parameterType="map">
+        update user
+        <set>
+            <if test="username !=null and username !=''">username=#{username}</if>
+            <if test="password !=null and password !=''">password=#{password}</if>
+            <if test="roleid !=null and roleid !=''">roleid=#{roleid}</if>
+        </set>
+        where id=#{id}
+    </update>
+    <select id="selectbyid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from user where id=#{id}
+    </select>
+    <select id="selectbyusername" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from user where username=#{username}
+    </select>
+</mapper>
